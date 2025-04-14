@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fancy Fruit Market - Inventory Management</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background-color: #f1f7ec;
+      color: #2f3e46;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    button {
+      cursor: pointer;
+    }
+    
+    /* Navbar */
+    header {
+      width: 100%;
+      background-color: #386641;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+    }
+    .logo {
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .nav-links a:hover {
+      opacity: 0.8;
+    }
+    
+    /* Hero Section using headerfruits.jpg */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      background: url('headerfruits.jpg') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      width: 80%;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+    
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    /* Login Page */
+    #login-page {
+      background-color: #fff;
+      max-width: 400px;
+      margin: 1rem auto;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    #login-page h2 {
+      margin-bottom: 1rem;
+      color: #386641;
+    }
+    #login-form div {
+      margin-bottom: 0.8rem;
+    }
+    #login-message {
+      margin-top: 0.5rem;
+      color: red;
+    }
+    
+    /* Dashboard */
+    #dashboard {
+      background-color: transparent;
+    }
+    form {
+      background: #fff;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="number"] {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="number"]:focus {
+      border-color: #8db596;
+    }
+    button[type="submit"] {
+      background-color: #6a994e;
+      color: #fff;
+      padding: 0.7rem 1.2rem;
+      border: none;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+      font-weight: 500;
+    }
+    button[type="submit"]:hover {
+      background-color: #588d47;
+    }
+    #logout-button {
+      background-color: #bc4749;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      font-weight: 500;
+      float: right;
+      margin-bottom: 1rem;
+      transition: background-color 0.2s;
+    }
+    #logout-button:hover {
+      background-color: #9f3c3e;
+    }
+    
+    /* Fruit List Section */
+    #fruit-list h3 {
+      margin-bottom: 1rem;
+      color: #386641;
+    }
+    .fruit-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    .fruit-card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      padding: 1rem;
+      text-align: center;
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .fruit-card:hover {
+      transform: translateY(-3px);
+    }
+    .fruit-card img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 0.5rem;
+      border: 1px solid #ccc;
+      background-color: #f1f7ec;
+    }
+    .fruit-card h4 {
+      margin-bottom: 0.3rem;
+      font-size: 1.1rem;
+      color: #2f3e46;
+    }
+    .fruit-card p {
+      font-size: 0.9rem;
+      color: #555;
+    }
+    
+    /* Fruit Search Section */
+    #fruit-search h3 {
+      margin-bottom: 1rem;
+      color: #386641;
+    }
+    #fruit-search #search-form {
+      display: flex;
+      gap: 0.5rem;
+    }
+    #search-input {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    #search-result {
+      margin-top: 0.5rem;
+      font-weight: 500;
+    }
+    
+    /* Order Section */
+    #order-section h3 {
+      margin-bottom: 1rem;
+      color: #386641;
+    }
+    #order-items {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .order-item label {
+      margin-bottom: 0.2rem;
+    }
+    .order-item input {
+      width: 60px;
+      margin-top: 0.2rem;
+    }
+    #order-total {
+      margin-top: 1rem;
+      font-weight: 600;
+      white-space: pre-wrap;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: #386641;
+      color: #fff;
+      text-align: center;
+      padding: 0.8rem;
+      margin-top: 2rem;
+    }
+    footer p {
+      font-size: 0.85rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      #order-items {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header>
+    <div class="logo">FruitFresh</div>
+    <nav class="nav-links">
+      <a href="#fruit-list">Fruits</a>
+      <a href="#fruit-search">Search</a>
+      <a href="#order-section">Orders</a>
+    </nav>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div>
+      <h1>Fresh & Healthy Fruits</h1>
+      <p>Your one-stop shop for organic, locally sourced produce.</p>
+    </div>
+  </section>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container">
+
+    <!-- Login Page -->
+    <div id="login-page">
+      <h2>Seller Login</h2>
+      <form id="login-form">
+        <div>
+          <label for="username">Username:</label>
+          <input type="text" id="username" required />
+        </div>
+        <div>
+          <label for="password">Password:</label>
+          <input type="password" id="password" required />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      <div id="login-message"></div>
+    </div>
+
+    <!-- Dashboard (hidden until login succeeds) -->
+    <div id="dashboard" style="display: none;">
+
+      <!-- Logout button -->
+      <button id="logout-button">Logout</button>
+
+      <!-- Fruit List Section -->
+      <section id="fruit-list">
+        <h3>Available Fruits</h3>
+        <div class="fruit-cards" id="fruit-cards-container">
+          <!-- Fruit cards will be generated dynamically -->
+        </div>
+      </section>
+
+      <!-- Fruit Search Section -->
+      <section id="fruit-search">
+        <h3>Search Fruit</h3>
+        <form id="search-form">
+          <input type="text" id="search-input" placeholder="Enter fruit name" required />
+          <button type="submit">Search</button>
+        </form>
+        <div id="search-result"></div>
+      </section>
+
+      <!-- Order Section -->
+      <section id="order-section">
+        <h3>Create Order</h3>
+        <form id="order-form">
+          <div id="order-items">
+            <!-- Order inputs for each fruit will be generated dynamically -->
+          </div>
+          <button type="submit">Calculate Total</button>
+        </form>
+        <div id="order-total"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; <span id="year"></span> FruitFresh Market. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // Hard-coded seller credentials (username: password)
+    const sellers = {
+      seller1: "password1",
+      seller2: "password2",
+      seller3: "password3"
+    };
+
+    // Fruit data with images (local file names) and an initial inventory (stock)
+    const fruits = [
+      { name: 'Apple', price: 1.00, img: 'apple.jpeg', stock: 20 },
+      { name: 'Banana', price: 0.50, img: 'banana.png', stock: 30 },
+      { name: 'Grapes', price: 2.00, img: 'grapes.jpeg', stock: 15 },
+      { name: 'Kiwi', price: 1.20, img: 'kiwi.jpeg', stock: 20 },
+      { name: 'Mango', price: 1.50, img: 'mango.jpeg', stock: 25 },
+      { name: 'Orange', price: 0.75, img: 'orange.jpeg', stock: 25 },
+      { name: 'Peach', price: 1.30, img: 'peach.jpeg', stock: 15 },
+      { name: 'Pineapple', price: 3.00, img: 'pineapple.jpeg', stock: 10 },
+      { name: 'Strawberry', price: 2.50, img: 'strawberry.png', stock: 50 },
+      { name: 'Watermelon', price: 4.00, img: 'watermelon.jpeg', stock: 10 }
+    ];
+
+    // Cache DOM elements
+    const loginPage = document.getElementById('login-page');
+    const loginForm = document.getElementById('login-form');
+    const loginMessage = document.getElementById('login-message');
+    const dashboard = document.getElementById('dashboard');
+    const logoutButton = document.getElementById('logout-button');
+    const fruitCardsContainer = document.getElementById('fruit-cards-container');
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+    const searchResult = document.getElementById('search-result');
+    const orderForm = document.getElementById('order-form');
+    const orderItemsContainer = document.getElementById('order-items');
+    const orderTotalContainer = document.getElementById('order-total');
+
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Initialize fruit cards and order form
+    function initFruitData() {
+      // Update fruit cards
+      fruitCardsContainer.innerHTML = "";
+      fruits.forEach(fruit => {
+        const card = document.createElement('div');
+        card.classList.add('fruit-card');
+        
+        const img = document.createElement('img');
+        img.src = fruit.img;
+        img.alt = fruit.name;
+        
+        const fruitName = document.createElement('h4');
+        fruitName.textContent = fruit.name;
+        
+        const fruitPrice = document.createElement('p');
+        fruitPrice.textContent = `$${fruit.price.toFixed(2)}`;
+        
+        const fruitStock = document.createElement('p');
+        fruitStock.style.fontSize = '0.8rem';
+        fruitStock.style.color = '#555';
+        fruitStock.textContent = `Stock: ${fruit.stock}`;
+        
+        card.appendChild(img);
+        card.appendChild(fruitName);
+        card.appendChild(fruitPrice);
+        card.appendChild(fruitStock);
+        
+        fruitCardsContainer.appendChild(card);
+      });
+
+      // Update the order form
+      orderItemsContainer.innerHTML = "";
+      fruits.forEach(fruit => {
+        const div = document.createElement('div');
+        div.classList.add('order-item');
+
+        // Label now includes available stock information
+        const label = document.createElement('label');
+        label.htmlFor = `order-${fruit.name}`;
+        label.textContent = `${fruit.name} ($${fruit.price.toFixed(2)}, Available: ${fruit.stock})`;
+
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.min = 0;
+        input.value = 0;
+        input.id = `order-${fruit.name}`;
+
+        div.appendChild(label);
+        div.appendChild(input);
+        orderItemsContainer.appendChild(div);
+      });
+    }
+
+    // Reset search result and order total messages
+    function resetDashboard() {
+      searchResult.textContent = "";
+      orderTotalContainer.textContent = "";
+      fruits.forEach(fruit => {
+        const input = document.getElementById(`order-${fruit.name}`);
+        if (input) { input.value = 0; }
+      });
+    }
+
+    // Login form submission
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (sellers[username] && sellers[username] === password) {
+        loginPage.style.display = "none";
+        dashboard.style.display = "block";
+        loginMessage.textContent = "";
+        initFruitData();
+      } else {
+        loginMessage.textContent = "Invalid credentials. Please try again.";
+      }
+    });
+
+    // Logout handler
+    logoutButton.addEventListener('click', () => {
+      dashboard.style.display = "none";
+      loginPage.style.display = "block";
+      loginForm.reset();
+      resetDashboard();
+    });
+
+    // Fruit search (not case sensitive)
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const query = searchInput.value.trim().toLowerCase();
+      // Find using case-insensitive search
+      const fruit = fruits.find(f => f.name.toLowerCase() === query);
+      if (fruit) {
+        searchResult.textContent = `Fruit Found: ${fruit.name} is priced at $${fruit.price.toFixed(2)} and has ${fruit.stock} in stock.`;
+      } else {
+        searchResult.textContent = "Fruit not found.";
+      }
+    });
+
+    // Order form submission with inventory management
+    orderForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let total = 0;
+      let orderDetails = "Order Details:\n";
+      // First, check that requested quantities do not exceed stock.
+      for (const fruit of fruits) {
+        const qtyInput = document.getElementById(`order-${fruit.name}`);
+        const quantity = parseInt(qtyInput.value, 10) || 0;
+        if (quantity > fruit.stock) {
+          alert(`Insufficient stock for ${fruit.name}. Available: ${fruit.stock}.`);
+          return; // Cancel processing if any fruit is over-ordered.
+        }
+      }
+      // If all quantities are valid, process the order.
+      fruits.forEach(fruit => {
+        const qtyInput = document.getElementById(`order-${fruit.name}`);
+        const quantity = parseInt(qtyInput.value, 10) || 0;
+        if (quantity > 0) {
+          const subTotal = quantity * fruit.price;
+          total += subTotal;
+          orderDetails += `${fruit.name}: ${quantity} x $${fruit.price.toFixed(2)} = $${subTotal.toFixed(2)}\n`;
+          // Deduct ordered quantity from the fruit's stock.
+          fruit.stock -= quantity;
+        }
+      });
+      
+      if (total === 0) {
+        orderTotalContainer.textContent = "No fruits selected.";
+      } else {
+        orderDetails += `\nTotal: $${total.toFixed(2)}`;
+        orderTotalContainer.textContent = orderDetails;
+        // Update the inventory display after order processing.
+        initFruitData();
+      }
+    });
+  </script>
+</body>
+</html>
